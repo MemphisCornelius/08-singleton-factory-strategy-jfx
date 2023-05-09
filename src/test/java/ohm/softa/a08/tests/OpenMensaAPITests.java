@@ -1,6 +1,7 @@
 package ohm.softa.a08.tests;
 
 import ohm.softa.a08.api.OpenMensaAPI;
+import ohm.softa.a08.api.OpenMensaAPIService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.logging.log4j.LogManager;
@@ -29,23 +30,9 @@ class OpenMensaAPITests {
 	@BeforeEach
 	void setUp() {
 
-		// use this to intercept all requests and output them to the logging facilities
-		var interceptor = new HttpLoggingInterceptor();
-		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-		/* create a OkHttpClient and register the interceptor */
-		var client = new OkHttpClient.Builder()
-			.addInterceptor(interceptor)
-			.build();
-
-		var retrofit = new Retrofit.Builder()
-			.addConverterFactory(GsonConverterFactory.create())
-			.baseUrl("http://openmensa.org/api/v2/")
-			.client(client)
-			.build();
-
+		// use this to intercept all requests and output them to the logging facilitie
 		/* retrieve a proxy object for the OpenMensaAPI interface */
-		api = retrofit.create(OpenMensaAPI.class);
+		api = OpenMensaAPIService.getInstance().getAPI();
 	}
 
 	@Test
